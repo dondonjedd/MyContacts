@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -34,8 +35,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // style
     var cardTextStyle = const TextStyle(
         fontFamily: "Montserrat Regular",
-        fontSize: 14,
-        color: Color.fromRGBO(63, 63, 63, 1));
+        fontSize: 20,);
 
     return Scaffold(
       appBar: AppBar(
@@ -43,27 +43,37 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Stack(
-        children: [
-          SafeArea(
-              child: Padding(padding: EdgeInsets.all(50.0),
-                child: Column(children: [
-                  Expanded(
-                      child: ListView(
-                        primary: false,
-                        children: [Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[Text('Personal Data', style: cardTextStyle)],
-                            )
-                        )]
-                      )
-                  )
-                ],)
+      body: StaggeredGridView.count(
+          primary: true,
+          physics: const NeverScrollableScrollPhysics(),
+          mainAxisSpacing: 20.0,
+          crossAxisSpacing: 20.0,
+          crossAxisCount:2,
+          padding:  EdgeInsets.all(padding),
+          children: [
+            Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle)],
               )
-          )
+            ),
+            Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle)],
+                )
+            ),
+            Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle)],
+                )
+            )
         ],
-      ),
+      )
     );
   }
 }
