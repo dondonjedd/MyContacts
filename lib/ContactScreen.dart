@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'dart:convert';
 
+import 'package:flutter/services.dart';
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
 
@@ -9,29 +12,83 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
+  List items = [];
+
   @override
   Widget build(BuildContext context) {
+    ReadJsonData();
     return Scaffold(
-      appBar: AppBar(title: const Text("All Contacts"),),
-      body: Center(
-        child: FutureBuilder(
-          future: DefaultAssetBundle.of(context).loadString("assets/files/AllContacts.json"),
-          builder: (context, snapshot){
-          var showData=json.decode(snapshot.data.toString());
-          return ListView.builder(
-            itemBuilder: (BuildContext context, int index){
-              return ListTile(
-                title: Text(showData[index]['user']),
-                subtitle: Text(showData[index]['phone']),
-              );
-            },
-            itemCount: showData.length,
-          );
-        },
-
-        ),
-      ),
-
+        appBar: AppBar(title: const Text("All Contacts")),
+        body: Center(
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  margin: const EdgeInsets.all(10),
+                  child: ListTile(
+                    leading: Text(items[index]["user"]),
+                    title: Text(items[index]["phone"]),
+                    subtitle: Text(items[index]["check-in"]),
+                  ),
+                );
+              },
+            )
+        )
     );
   }
+
+
+  Future<void> ReadJsonData() async {
+    //read json file
+    final jsondata = await rootBundle.loadString(
+        'assets/files/AllContacts.json');
+    //decode json data as list
+    final data = await json.decode(jsondata);
+
+    setState(() {
+      items=data;
+      items.sort((a,b) {
+        var adate = a['check-in'] ;
+        var bdate = b['check-in'];
+        return -adate.compareTo(bdate);
+      });
+    });
+
+  }
 }
+
+
+
+
+
+// class contact{
+//   var user;
+//   var phone;
+//   var checkIn;
+//
+//   contact(String Name,String Tel,String Date){
+//     user=Name;
+//     phone=Tel;
+//     checkIn=Date;
+//   }
+//
+//   getUser(){
+//     return user;
+//   }
+//   getPhone(){
+//     return phone;
+//   }
+//   getCheckIn(){
+//     return checkIn;
+//   }
+//
+//   //method that assign values to respective datatype vairables
+//   contact.fromJson(Map<String,dynamic> json)
+//   {
+//     user = json['user'];
+//     phone =json['phone'];
+//     checkIn = json['check-in'];
+//   }
+//
+// }
+
