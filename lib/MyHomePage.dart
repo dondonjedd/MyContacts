@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
             children: [
               AnimationConfiguration.staggeredGrid(
                 position: 1, columnCount: 2, child: ScaleAnimation(
-                  duration: Duration(milliseconds: 500),
+                  duration: const Duration(milliseconds: 500),
                     child:FadeInAnimation(
                       child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
                         child: Column(
@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
               ),
               AnimationConfiguration.staggeredGrid(
-                  position: 1, columnCount: 2, child: ScaleAnimation(
+                  position: 2, columnCount: 1, child: ScaleAnimation(
                   duration: Duration(milliseconds: 1000),
                   child:FadeInAnimation(
                       child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
@@ -84,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
               )
               ),
               AnimationConfiguration.staggeredGrid(
-                  position: 1, columnCount: 2, child: ScaleAnimation(
+                  position: 3, columnCount: 1, child: ScaleAnimation(
                   duration: Duration(milliseconds: 1500),
                   child:FadeInAnimation(
                       child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
