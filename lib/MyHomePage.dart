@@ -31,7 +31,9 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-
+    double height = MediaQuery.of(context).size.height;
+    double barheight =AppBar().preferredSize.height;
+    double padding=20;
     // style
     var cardTextStyle = const TextStyle(
         fontFamily: "Montserrat Regular",
@@ -72,6 +74,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle)],
                 )
             )
+        ],
+        staggeredTiles: [
+          StaggeredTile.extent(2, (height-barheight-padding*6)*(2/3)),
+          StaggeredTile.extent(1, (height-barheight-padding*6)*(1/3)),
+          StaggeredTile.extent(1, (height-barheight-padding*6)*(1/3)),
         ],
       )
     );
