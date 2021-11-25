@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => Text('not configured yet'),
+                    builder: (context) => index==0? const ContactScreen() :const Text('not configured yet'),
                 ),
               );
             },
@@ -85,3 +85,20 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class ContactScreen extends StatefulWidget {
+  const ContactScreen({Key? key}) : super(key: key);
+
+  @override
+  _ContactScreenState createState() => _ContactScreenState();
+}
+
+class _ContactScreenState extends State<ContactScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
+
