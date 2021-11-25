@@ -42,69 +42,46 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: AnimationLimiter(
-        child: StaggeredGridView.count(
-            primary: true,
-            physics: const NeverScrollableScrollPhysics(),
-            mainAxisSpacing: 20.0,
-            crossAxisSpacing: 20.0,
-            crossAxisCount:2,
-            padding:  EdgeInsets.all(padding),
-            children: [
-              AnimationConfiguration.staggeredGrid(
-                position: 1, columnCount: 2, child: ScaleAnimation(
-                  duration: const Duration(milliseconds: 500),
-                    child:FadeInAnimation(
-                      child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
+      body: Container(
+        child: StaggeredGridView.countBuilder(
+          primary: true,
+          itemCount: 3,
+          /*physics: const NeverScrollableScrollPhysics(),*/
+          mainAxisSpacing: 20.0,
+          crossAxisSpacing: 20.0,
+          crossAxisCount:2,
+          itemBuilder: (BuildContext context, int index) => GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Text('not configured yet'),
+                ),
+              );
+            },
+            child: AnimationConfiguration.staggeredGrid(
+              position: index, columnCount: 2, child: ScaleAnimation(
+
+                duration: index==0? const Duration(milliseconds: 500) : index==1?const Duration(milliseconds: 1000) : const Duration(milliseconds: 1500) ,
+                child:FadeInAnimation(
+                    child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle)],
+                          children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle),],
+
                         )
-                      )
                     )
                 )
-              ),
-              AnimationConfiguration.staggeredGrid(
-                  position: 2, columnCount: 1, child: ScaleAnimation(
-                  duration: Duration(milliseconds: 1000),
-                  child:FadeInAnimation(
-                      child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle)],
-                          )
-                      )
-                  )
-              )
-              ),
-              AnimationConfiguration.staggeredGrid(
-                  position: 3, columnCount: 1, child: ScaleAnimation(
-                  duration: Duration(milliseconds: 1500),
-                  child:FadeInAnimation(
-                      child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle)],
-                          )
-                      )
-                  )
-              )
-              ),
-          ],
-          staggeredTiles: [
-            StaggeredTile.extent(2, (height-barheight-padding*6)*(2/3)),
-            StaggeredTile.extent(1, (height-barheight-padding*6)*(1/3)),
-            StaggeredTile.extent(1, (height-barheight-padding*6)*(1/3)),
-          ],
-        )
-      )
+            )
+            ),
+          ),
+          staggeredTileBuilder: (int index) =>
+              StaggeredTile.extent(index>0 ? 1 : 2,index>0 ? (height-barheight-padding*6)*(1/3) :(height-barheight-padding*6)*(2/3))
+        ),
+      ),
     );
   }
 }
