@@ -3,6 +3,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'ContactScreen.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title}) : super(key: key);
@@ -86,19 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class ContactScreen extends StatefulWidget {
-  const ContactScreen({Key? key}) : super(key: key);
 
-  @override
-  _ContactScreenState createState() => _ContactScreenState();
-}
-
-class _ContactScreenState extends State<ContactScreen> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
 
 
 
