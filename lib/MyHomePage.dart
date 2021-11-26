@@ -36,16 +36,16 @@ class _MyHomePageState extends State<MyHomePage> {
     double height = MediaQuery.of(context).size.height;
     double barheight =AppBar().preferredSize.height;
     double padding=20;
-    // style
-    var cardTextStyle = const TextStyle(
-        fontFamily: "Montserrat Regular",
-        fontSize: 20,);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Colors.blue.shade400,
+        centerTitle: true,
+        title: Text(widget.title,style: const TextStyle(fontFamily: 'DancingScript'))
       ),
       body: Container(
+        color: Colors.white60,
+        padding: EdgeInsets.all(20),
         child: StaggeredGridView.countBuilder(
           primary: true,
           itemCount: 3,
@@ -67,11 +67,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 duration: index==0? const Duration(milliseconds: 500) : index==1?const Duration(milliseconds: 1000) : const Duration(milliseconds: 1500) ,
                 child:FadeInAnimation(
-                    child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)), elevation: 10,
+                    child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)), elevation: 10,color: index==0? Colors.blue.shade50 : index==1?Colors.orange.shade50:Colors.brown.shade50 ,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.max,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget>[SvgPicture.asset('assets/images/contact.svg',height: 100,),Text('My Contacts', style: cardTextStyle),],
+                          children:index==0?  <Widget>[
+                            SvgPicture.asset('assets/images/contact.svg',height: 200,),const Text('\nMy Log Book', style: TextStyle(fontSize:38 ,fontFamily: 'DancingScript',color: Colors.black54)),
+                          ]:index==1?<Widget>[
+                            SvgPicture.asset('assets/images/about.svg',height: 100),const Text('About', style: TextStyle(fontSize:30 ,fontFamily: 'DancingScript',color: Colors.black54)),
+                          ]:<Widget>[
+                            SvgPicture.asset('assets/images/settings.svg',height: 100,),const Text('Settings', style: TextStyle(fontSize:30 ,fontFamily: 'DancingScript',color: Colors.black54)),
+                          ]
 
                         )
                     )
