@@ -1,11 +1,10 @@
-import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/services.dart';
 import 'package:username_gen/username_gen.dart';
+import 'FileManager.dart';
+
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -15,19 +14,21 @@ class ContactScreen extends StatefulWidget {
 }
 
 class _ContactScreenState extends State<ContactScreen> {
-  List items = [];
+  late Future<List> items ;
   late ScrollController _controller;
   var itemToShowLength=15;
   var realItemLength=0;
   late List<bool> isSelected;
-
+  FileManager file=FileManager();
 
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    ReadJsonData();
+    // file.ReadJsonData().then((value) => items=value);
+    items=file.ReadJsonData();
+    // realItemLength=items.length;
     bool bol=false;
     isSelected = [ bol, !bol];
     _getTimeFormatFromSharedPref();
@@ -94,62 +95,30 @@ class _ContactScreenState extends State<ContactScreen> {
         ),
         body: Scrollbar(
             isAlwaysShown: true,
-            child: ListView.builder(
-              controller: _controller,
-              itemCount: itemToShowLength,
-              itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.all(10),
-                  child: ListTile(
-                    leading: Text((index+1).toString()+'. '+items[index]["user"]),
-                    title: Text(items[index]["phone"]),
-                    subtitle: isSelected[0]?Text(items[index]["date"] +'\t\t'+items[index]["time"]) :Text(items[index]["timeAgo"]),
-                  ),
-                );
-              },
+            child: FutureBuilder<List>(
+              future:items,
+                builder:(context, snapshot,){
+                  realItemLength=(snapshot.data as List).length;
+                  return ListView.builder(
+                      controller: _controller,
+                      itemCount: itemToShowLength,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          margin: const EdgeInsets.all(10),
+                          child: ListTile(
+                            leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
+                            title: Text((snapshot.data as List)[index]["phone"]),
+                            subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
+                          ),
+                        );
+                      },
+                    );
+                  }
             )
         )
     );
   }
-
-
-
-  Future<void> ReadJsonData() async {
-    //read json file
-    final jsondata = await rootBundle.loadString('assets/files/AllContacts.json');
-    //decode json data as list
-    List data = await json.decode(jsondata);
-    final timeformat = DateFormat('h:mm a');
-    final dateformat = DateFormat('dd/MM/yyyy');
-    String clockString;
-    String dateString;
-    var tmpArray;
-
-    setState(() {
-      realItemLength=data.length;
-
-      data.sort((a,b) {
-        var adate = a['check-in'];
-        var bdate = b['check-in'];
-        return bdate.compareTo(adate);
-      });
-
-      for(int i=0;i<data.length;i++){
-        var parsedDateTime=DateTime.parse(data[i]['check-in']);
-        clockString = timeformat.format(parsedDateTime);
-        dateString = dateformat.format(parsedDateTime);
-        tmpArray= {
-          'user': data[i]['user'],
-          'phone':data[i]['phone'],
-          'date':dateString,
-          'time':clockString,
-          'timeAgo':convertToAgo(parsedDateTime)
-        };
-        items.add(tmpArray);
-      }
-    });
-
-  }
+  //previous json position
 
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
@@ -169,6 +138,7 @@ class _ContactScreenState extends State<ContactScreen> {
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 1
           );
+          /*file.ReadJsonData().then((value) => items=value);*/
           itemToShowLength=realItemLength;
 
         }
@@ -187,8 +157,8 @@ class _ContactScreenState extends State<ContactScreen> {
               seperator: ' '
           );
 
-          int min = 100000; //min and max values act as your 6 digit range
-          int max = 999999;
+          int min = 1000000; //min and max values act as your 6 digit range
+          int max = 9999999;
           var randomizer = Random();
           var rNum = min + randomizer.nextInt(max - min);
 
@@ -201,18 +171,7 @@ class _ContactScreenState extends State<ContactScreen> {
   }
 }
 
-String convertToAgo(DateTime input){
-  Duration diff = DateTime.now().difference(input);
 
-  if(diff.inDays >= 1){
-    return '${diff.inDays} day(s) ago';
-  } else if(diff.inHours >= 1){
-    return '${diff.inHours} hour(s) ago';
-  } else if(diff.inMinutes >= 1){
-    return '${diff.inMinutes} minute(s) ago';
-  } else if (diff.inSeconds >= 1){
-    return '${diff.inSeconds} second(s) ago';
-  } else {
-    return 'just now';
-  }
-}
+
+
+
