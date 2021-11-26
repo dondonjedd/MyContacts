@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
           itemCount: 3,
           /*physics: const NeverScrollableScrollPhysics(),*/
           mainAxisSpacing: 20.0,
-          crossAxisSpacing: 20.0,
+          crossAxisSpacing: 0,
           crossAxisCount:2,
           itemBuilder: (BuildContext context, int index) => GestureDetector(
             onTap: () {
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
             child: AnimationConfiguration.staggeredGrid(
               position: index, columnCount: 2, child: ScaleAnimation(
 
-                duration: index==0? const Duration(milliseconds: 500) : index==1?const Duration(milliseconds: 1000) : const Duration(milliseconds: 1500) ,
+                duration: index==0? const Duration(milliseconds: 1000) : index==1?const Duration(milliseconds: 2000) : const Duration(milliseconds: 2500),
                 child:FadeInAnimation(
                     child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)), elevation: 10,color: index==0? Colors.blue.shade50 : index==1?Colors.orange.shade50:Colors.brown.shade50 ,
                         child: Column(
