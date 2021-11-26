@@ -30,7 +30,7 @@ class _ContactScreenState extends State<ContactScreen> {
       data.sort((a,b) {
         var adate = a['check-in'];
         var bdate = b['check-in'];
-        return adate.compareTo(bdate);
+        return bdate.compareTo(adate);
       });
 
       for(int i=0;i<data.length;i++){
@@ -41,7 +41,8 @@ class _ContactScreenState extends State<ContactScreen> {
           'user': data[i]['user'],
           'phone':data[i]['phone'],
           'date':dateString,
-          'time':clockString
+          'time':clockString,
+          'timeAgo':convertToAgo(parsedDateTime)
         };
         items.add(tmpArray);
       }
@@ -68,12 +69,29 @@ class _ContactScreenState extends State<ContactScreen> {
                   child: ListTile(
                     leading: Text(items[index]["user"]),
                     title: Text(items[index]["phone"]),
-                    subtitle: Text(items[index]["date"] +'\n'+items[index]["time"]),
+                    subtitle: Text(items[index]["date"] +'\n'+items[index]["time"]+'\n'+items[index]["timeAgo"]),
                   ),
                 );
               },
             )
         )
     );
+  }
+
+
+  String convertToAgo(DateTime input){
+    Duration diff = DateTime.now().difference(input);
+
+    if(diff.inDays >= 1){
+      return '${diff.inDays} day(s) ago';
+    } else if(diff.inHours >= 1){
+      return '${diff.inHours} hour(s) ago';
+    } else if(diff.inMinutes >= 1){
+      return '${diff.inMinutes} minute(s) ago';
+    } else if (diff.inSeconds >= 1){
+      return '${diff.inSeconds} second(s) ago';
+    } else {
+      return 'just now';
+    }
   }
 }
