@@ -12,6 +12,8 @@ class ContactScreen extends StatefulWidget {
 
 class _ContactScreenState extends State<ContactScreen> {
   List items = [];
+  late ScrollController _controller;
+  var itemLength=15;
 
 
   Future<void> ReadJsonData() async {
@@ -49,11 +51,28 @@ class _ContactScreenState extends State<ContactScreen> {
     });
 
   }
+
+  _scrollListener() {
+    if (_controller.offset >= _controller.position.maxScrollExtent &&
+        !_controller.position.outOfRange) {
+          setState(() {
+            itemLength=30;
+          });
+    }
+    if (_controller.offset <= _controller.position.minScrollExtent &&
+        !_controller.position.outOfRange) {
+          setState(() {
+          });
+    }
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     ReadJsonData();
+    _controller = ScrollController();
+    _controller.addListener(_scrollListener);
   }
 
   @override
@@ -62,7 +81,8 @@ class _ContactScreenState extends State<ContactScreen> {
         appBar: AppBar(title: const Text("All Contacts")),
         body: Center(
             child: ListView.builder(
-              itemCount: 15,
+              controller: _controller,
+              itemCount: itemLength,
               itemBuilder: (context, index) {
                 return Card(
                   margin: const EdgeInsets.all(10),
