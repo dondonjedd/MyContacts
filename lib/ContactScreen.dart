@@ -26,9 +26,25 @@ class _ContactScreenState extends State<ContactScreen> {
     // TODO: implement initState
     super.initState();
     ReadJsonData();
-    isSelected = [true, false];
+    bool bol=false;
+    isSelected = [ bol, !bol];
+    _getTimeFormatFromSharedPref();
     _controller = ScrollController();
     _controller.addListener(_scrollListener);
+  }
+
+  _getTimeFormatFromSharedPref() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isSelected = (prefs.getStringList('timeFormat')?.map((e) => e == 'true' ? true : false).toList() ?? [true, false]);
+    });
+  }
+
+  _saveTimeFormatFromSharedPref() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setStringList('timeFormat',isSelected.map((e) => e ? 'true' : 'false').toList());
+    });
   }
 
   @override
@@ -67,6 +83,7 @@ class _ContactScreenState extends State<ContactScreen> {
                     for (int i = 0; i < isSelected.length; i++) {
                       isSelected[i] = i == index;
                     }
+                    _saveTimeFormatFromSharedPref();
                   });
                 },
                 isSelected: isSelected,
