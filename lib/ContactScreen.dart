@@ -62,12 +62,12 @@ class _ContactScreenState extends State<ContactScreen> {
         appBar: AppBar(title: const Text("All Contacts")),
         body: Center(
             child: ListView.builder(
-              itemCount: items.length,
+              itemCount: 15,
               itemBuilder: (context, index) {
                 return Card(
                   margin: const EdgeInsets.all(10),
                   child: ListTile(
-                    leading: Text(items[index]["user"]),
+                    leading: Text((index+1).toString()+'. '+items[index]["user"]),
                     title: Text(items[index]["phone"]),
                     subtitle: Text(items[index]["date"] +'\n'+items[index]["time"]+'\n'+items[index]["timeAgo"]),
                   ),
