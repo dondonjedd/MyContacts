@@ -13,9 +13,50 @@ class ContactScreen extends StatefulWidget {
 class _ContactScreenState extends State<ContactScreen> {
   List items = [];
 
+
+  Future<void> ReadJsonData() async {
+    //read json file
+    final jsondata = await rootBundle.loadString('assets/files/AllContacts.json');
+    //decode json data as list
+    List data = await json.decode(jsondata);
+    final timeformat = DateFormat('h:mm a');
+    final dateformat = DateFormat('dd/MM/yyyy');
+    String clockString;
+    String dateString;
+    var tmpArray;
+
+    setState(() {
+
+      data.sort((a,b) {
+        var adate = a['check-in'];
+        var bdate = b['check-in'];
+        return adate.compareTo(bdate);
+      });
+
+      for(int i=0;i<data.length;i++){
+        var parsedDateTime=DateTime.parse(data[i]['check-in']);
+        clockString = timeformat.format(parsedDateTime);
+        dateString = dateformat.format(parsedDateTime);
+        tmpArray= {
+          'user': data[i]['user'],
+          'phone':data[i]['phone'],
+          'date':dateString,
+          'time':clockString
+        };
+        items.add(tmpArray);
+      }
+    });
+
+  }
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    ReadJsonData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    ReadJsonData();
     return Scaffold(
         appBar: AppBar(title: const Text("All Contacts")),
         body: Center(
@@ -27,7 +68,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   child: ListTile(
                     leading: Text(items[index]["user"]),
                     title: Text(items[index]["phone"]),
-                    subtitle: Text(items[index]["check-in"]),
+                    subtitle: Text(items[index]["date"] +'\n'+items[index]["time"]),
                   ),
                 );
               },
@@ -35,59 +76,4 @@ class _ContactScreenState extends State<ContactScreen> {
         )
     );
   }
-
-
-  Future<void> ReadJsonData() async {
-    //read json file
-    final jsondata = await rootBundle.loadString(
-        'assets/files/AllContacts.json');
-    //decode json data as list
-    final data = await json.decode(jsondata);
-
-    setState(() {
-      items=data;
-      items.sort((a,b) {
-        var adate = a['check-in'] ;
-        var bdate = b['check-in'];
-        return -adate.compareTo(bdate);
-      });
-    });
-
-  }
 }
-
-
-
-
-
-// class contact{
-//   var user;
-//   var phone;
-//   var checkIn;
-//
-//   contact(String Name,String Tel,String Date){
-//     user=Name;
-//     phone=Tel;
-//     checkIn=Date;
-//   }
-//
-//   getUser(){
-//     return user;
-//   }
-//   getPhone(){
-//     return phone;
-//   }
-//   getCheckIn(){
-//     return checkIn;
-//   }
-//
-//   //method that assign values to respective datatype vairables
-//   contact.fromJson(Map<String,dynamic> json)
-//   {
-//     user = json['user'];
-//     phone =json['phone'];
-//     checkIn = json['check-in'];
-//   }
-//
-// }
-
