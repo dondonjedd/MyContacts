@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:flutter/services.dart';
+
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
 
@@ -100,7 +100,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   child: ListTile(
                     leading: Text((index+1).toString()+'. '+items[index]["user"]),
                     title: Text(items[index]["phone"]),
-                    subtitle: Text(items[index]["date"] +'\n'+items[index]["time"]+'\n'+items[index]["timeAgo"]),
+                    subtitle: isSelected[0]?Text(items[index]["date"] +'\t\t'+items[index]["time"]) :Text(items[index]["timeAgo"]),
                   ),
                 );
               },
