@@ -1,9 +1,11 @@
 import 'dart:convert';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
+import 'package:username_gen/username_gen.dart';
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -176,6 +178,24 @@ class _ContactScreenState extends State<ContactScreen> {
     if (_controller.offset <= _controller.position.minScrollExtent &&
         !_controller.position.outOfRange) {
       setState(() {
+        for(int i=0;i<5;i++){
+          var username = UsernameGen.generateWith(
+              data: UsernameGenData(
+                names: ['new names'],
+                adjectives: ['new names'],
+              ),
+              seperator: ' '
+          );
+
+          int min = 100000; //min and max values act as your 6 digit range
+          int max = 999999;
+          var randomizer = Random();
+          var rNum = min + randomizer.nextInt(max - min);
+
+          var CurrentDateTime=DateTime.now();
+
+        }
+
       });
     }
   }
