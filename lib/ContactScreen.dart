@@ -90,7 +90,8 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
           )],
         ),
-        body: Center(
+        body: Scrollbar(
+            isAlwaysShown: true,
             child: ListView.builder(
               controller: _controller,
               itemCount: itemToShowLength,
