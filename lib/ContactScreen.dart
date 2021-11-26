@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
-import 'dart:convert';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/services.dart';
 class ContactScreen extends StatefulWidget {
