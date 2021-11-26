@@ -14,7 +14,8 @@ class ContactScreen extends StatefulWidget {
 class _ContactScreenState extends State<ContactScreen> {
   List items = [];
   late ScrollController _controller;
-  var itemLength=15;
+  var itemToShowLength=15;
+  var realItemLength=0;
 
 
   Future<void> ReadJsonData() async {
@@ -29,6 +30,7 @@ class _ContactScreenState extends State<ContactScreen> {
     var tmpArray;
 
     setState(() {
+      realItemLength=data.length;
 
       data.sort((a,b) {
         var adate = a['check-in'];
@@ -57,7 +59,24 @@ class _ContactScreenState extends State<ContactScreen> {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
           setState(() {
-            itemLength=30;
+            if(itemToShowLength==realItemLength){
+              Fluttertoast.showToast(
+                  msg: "You have reached end of the list",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1
+              );
+            }else{
+              Fluttertoast.showToast(
+                  msg: "Loading remaining contacts",
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.CENTER,
+                  timeInSecForIosWeb: 1
+              );
+              itemToShowLength=realItemLength;
+
+            }
+
           });
     }
     if (_controller.offset <= _controller.position.minScrollExtent &&
@@ -83,7 +102,7 @@ class _ContactScreenState extends State<ContactScreen> {
         body: Center(
             child: ListView.builder(
               controller: _controller,
-              itemCount: itemLength,
+              itemCount: itemToShowLength,
               itemBuilder: (context, index) {
                 return Card(
                   margin: const EdgeInsets.all(10),
