@@ -48,9 +48,11 @@ class FileManager {
 
   Future<List> ReadJsonData() async {
     //read json file
-    final jsondata = await rootBundle.loadString('assets/files/AllContacts.json');
-    //decode json data as list
-    List data = await json.decode(jsondata);
+    final directory = await getExternalStorageDirectory();
+    dir = directory!;
+    jsonFile = File(dir.path + "/" + fileName);
+    List data = await json.decode(await jsonFile.readAsString());
+
     final timeformat = DateFormat('h:mm a');
     final dateformat = DateFormat('dd/MM/yyyy');
     String clockString;
