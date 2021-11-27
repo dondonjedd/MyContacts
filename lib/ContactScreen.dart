@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:username_gen/username_gen.dart';
 import 'FileManager.dart';
+import 'package:share/share.dart';
 
 
 class ContactScreen extends StatefulWidget {
