@@ -96,7 +96,7 @@ class _ContactScreenState extends State<ContactScreen> {
         body: RefreshIndicator(
             onRefresh: () {
               return Future.delayed(
-                Duration(seconds: 1), () {
+                const Duration(seconds: 1), () {
 
                   setState(() {
                     for(int i=0;i<5;i++){

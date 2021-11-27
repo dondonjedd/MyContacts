@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:username_gen/username_gen.dart';
 
 
 class FileManager {
@@ -46,10 +48,21 @@ class FileManager {
 
   Future<List> ReadJsonData() async {
     //read json file
+    List data=[];
     final directory = await getExternalStorageDirectory();
     dir = directory!;
     jsonFile = File(dir.path + "/" + fileName);
-    List data = await json.decode(await jsonFile.readAsString());
+    if(!(jsonFile.existsSync())){
+      print("File does not exist!");
+
+      createFile(data, dir, fileName);
+      fileExists=true;
+      for(int i=0;i<30;i++){
+        Map generatedUser=generateUser();
+        writeToFile(generatedUser["user"], "01"+generatedUser["phone"],generatedUser["check-in"]);
+      }
+    }
+    data = await json.decode(await jsonFile.readAsString());
 
     final timeformat = DateFormat('h:mm a');
     final dateformat = DateFormat('dd/MM/yyyy');
@@ -81,6 +94,18 @@ class FileManager {
 
   }
 
+  generateUser<Map>(){
+    String username = UsernameGen().generate();
+
+    int min = 1000000; //min and max values act as your 6 digit range
+    int max = 9999999;
+    var randomizer = Random();
+    var rNum = min + randomizer.nextInt(max - min);
+
+    var CurrentDateTime=DateTime.now();
+    return {"user":username,"phone":rNum.toString(),"check-in":CurrentDateTime.toString()};
+  }
+
 /*  Future<void> writeJsonFile(String Name, String Phone,String CheckIn) async {
     final contact user = contact(Name, Phone, CheckIn);
 
@@ -99,10 +124,6 @@ class FileManager {
       List jsonFileContent = json.decode(jsonFile.readAsStringSync());
       jsonFileContent.add(content);
       jsonFile.writeAsStringSync(json.encode(jsonFileContent));
-    } else {
-      print("File does not exist!");
-      List jsonFileContent={content}as List;
-      createFile(jsonFileContent, dir, fileName);
     }
   }
 
