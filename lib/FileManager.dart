@@ -16,12 +16,12 @@ class FileManager {
   late Directory dir;
   String fileName = "AllContacts.json";
   bool fileExists = false;
-  late Map<String, dynamic> fileContent;
+  late Future<List> fileContent;
 
   Future<void> initState() async {
     final directory = await getExternalStorageDirectory();
     dir = directory!;
-    jsonFile = new File(dir.path + "/" + fileName);
+    jsonFile = File(dir.path + "/" + fileName);
     fileExists = jsonFile.existsSync();
     if (fileExists) { fileContent = json.decode(jsonFile.readAsStringSync());
     }
@@ -96,19 +96,19 @@ class FileManager {
 
     if (fileExists) {
       print("File exists");
-      Map<String, dynamic> jsonFileContent = json.decode(jsonFile.readAsStringSync());
-      jsonFileContent.addAll(content);
-
+      List jsonFileContent = json.decode(jsonFile.readAsStringSync());
+      jsonFileContent.add(content);
       jsonFile.writeAsStringSync(json.encode(jsonFileContent));
     } else {
       print("File does not exist!");
-      createFile(content, dir, fileName);
+      List jsonFileContent={content}as List;
+      createFile(jsonFileContent, dir, fileName);
     }
   }
 
-  void createFile(Map<String, dynamic> content, Directory dir, String fileName) {
+  void createFile(List content , Directory dir, String fileName) {
     print("Creating file!");
-    File file = new File(dir.path + "/" + fileName);
+    File file = File(dir.path + "/" + fileName);
     file.createSync();
     fileExists = true;
     file.writeAsStringSync(json.encode(content));
