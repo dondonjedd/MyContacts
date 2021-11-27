@@ -170,13 +170,13 @@ class _ContactScreenState extends State<ContactScreen> {
 
           print(username+"\n"+ "01"+rNum.toString()+"\n"+CurrentDateTime.toString());
           file.writeToFile(username, "01"+rNum.toString(), CurrentDateTime.toString());
-          Fluttertoast.showToast(
-              msg: "5 contacts generated",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.CENTER,
-              timeInSecForIosWeb: 1
-          );
         }
+        Fluttertoast.showToast(
+            msg: "5 contacts generated",
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 1
+        );
       });
     }
   }
