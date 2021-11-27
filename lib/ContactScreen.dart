@@ -9,19 +9,17 @@ import 'FileManager.dart';
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
-
   @override
   _ContactScreenState createState() => _ContactScreenState();
 }
 
 class _ContactScreenState extends State<ContactScreen> {
   late Future<List> items ;
-  var itemToShowLength=15;
+  bool showAll=false;
   var realItemLength=0;
   late List<bool> isSelected;
   FileManager file=FileManager();
   final ScrollController _controller=ScrollController();
-
 
   @override
   void initState() {
@@ -104,7 +102,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       return Scrollbar(
                           isAlwaysShown: true,
                           child:ListView.builder(
-                            itemCount: itemToShowLength,
+                            itemCount: showAll?(snapshot.data as List).length:15,
                             controller: _controller,
                             itemBuilder: (context, index) {
                               return Card(
@@ -135,7 +133,7 @@ class _ContactScreenState extends State<ContactScreen> {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
         !_controller.position.outOfRange) {
       setState(() {
-        if(itemToShowLength==realItemLength){
+        if(showAll){
           Fluttertoast.showToast(
               msg: "You have reached end of the list",
               toastLength: Toast.LENGTH_SHORT,
@@ -149,8 +147,7 @@ class _ContactScreenState extends State<ContactScreen> {
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 1
           );
-          itemToShowLength=realItemLength;
-
+          showAll=true;
         }
 
       });
@@ -177,10 +174,13 @@ class _ContactScreenState extends State<ContactScreen> {
             gravity: ToastGravity.CENTER,
             timeInSecForIosWeb: 1
         );
+        items=file.ReadJsonData();
       });
     }
   }
 }
+
+
 
 
 
