@@ -92,7 +92,37 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
           )],
         ),
-        body: Center(
+        body: RefreshIndicator(
+            onRefresh: () {
+              return Future.delayed(
+                Duration(seconds: 1), () {
+
+                  setState(() {
+                    for(int i=0;i<5;i++){
+                      String username = UsernameGen().generate();
+
+                      int min = 1000000; //min and max values act as your 6 digit range
+                      int max = 9999999;
+                      var randomizer = Random();
+                      var rNum = min + randomizer.nextInt(max - min);
+
+                      var CurrentDateTime=DateTime.now();
+
+                      print(username+"\n"+ "01"+rNum.toString()+"\n"+CurrentDateTime.toString());
+                      file.writeToFile(username, "01"+rNum.toString(), CurrentDateTime.toString());
+                    }
+                    Fluttertoast.showToast(
+                        msg: "5 contacts generated",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 1
+                    );
+                    items=file.ReadJsonData();
+                  });
+
+                },
+              );
+            },
             child: FutureBuilder(
               future:items,
                 builder:(context, snapshot,){
@@ -152,7 +182,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
       });
     }
-    if (_controller.offset <= _controller.position.minScrollExtent &&
+/*    if ((_controller.offset <= _controller.position.minScrollExtent  )&&
         !_controller.position.outOfRange) {
       setState(() {
         for(int i=0;i<5;i++){
@@ -176,7 +206,7 @@ class _ContactScreenState extends State<ContactScreen> {
         );
         items=file.ReadJsonData();
       });
-    }
+    }*/
   }
 }
 
