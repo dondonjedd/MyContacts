@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -15,25 +16,25 @@ class ContactScreen extends StatefulWidget {
 
 class _ContactScreenState extends State<ContactScreen> {
   late Future<List> items ;
-  late ScrollController _controller;
   var itemToShowLength=15;
   var realItemLength=0;
   late List<bool> isSelected;
   FileManager file=FileManager();
+  final ScrollController _controller=ScrollController();
 
 
   @override
   void initState() {
-    // TODO: implement initState
-    super.initState();
-    // file.ReadJsonData().then((value) => items=value);
+    file.initState();
+    _controller.addListener(_scrollListener);
+
     items=file.ReadJsonData();
-    // realItemLength=items.length;
     bool bol=false;
     isSelected = [ bol, !bol];
     _getTimeFormatFromSharedPref();
-    _controller = ScrollController();
-    _controller.addListener(_scrollListener);
+
+    super.initState();
+
   }
 
   _getTimeFormatFromSharedPref() async {
@@ -93,26 +94,36 @@ class _ContactScreenState extends State<ContactScreen> {
               ),
           )],
         ),
-        body: Scrollbar(
-            isAlwaysShown: true,
-            child: FutureBuilder<List>(
+        body: Center(
+            child: FutureBuilder(
               future:items,
                 builder:(context, snapshot,){
-                  realItemLength=(snapshot.data as List).length;
-                  return ListView.builder(
-                      controller: _controller,
-                      itemCount: itemToShowLength,
-                      itemBuilder: (context, index) {
-                        return Card(
-                          margin: const EdgeInsets.all(10),
-                          child: ListTile(
-                            leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
-                            title: Text((snapshot.data as List)[index]["phone"]),
-                            subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
-                          ),
-                        );
-                      },
-                    );
+                  if (snapshot.hasData) {
+                    if (snapshot.data != null) {
+                      realItemLength=(snapshot.data! as List).length;
+                      return Scrollbar(
+                          isAlwaysShown: true,
+                          child:ListView.builder(
+                            itemCount: itemToShowLength,
+                            controller: _controller,
+                            itemBuilder: (context, index) {
+                              return Card(
+                                margin: const EdgeInsets.all(10),
+                                child: ListTile(
+                                  leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
+                                  title: Text((snapshot.data as List)[index]["phone"]),
+                                  subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
+                                ),
+                              );
+                            },
+                          )
+                      );
+
+                     }else{
+                      return new CircularProgressIndicator();}
+                    }else{
+                    return new CircularProgressIndicator();
+                  }
                   }
             )
         )
@@ -133,12 +144,11 @@ class _ContactScreenState extends State<ContactScreen> {
           );
         }else{
           Fluttertoast.showToast(
-              msg: "Loading remaining contacts",
+              msg: "Remaining contacts loaded",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
               timeInSecForIosWeb: 1
           );
-          /*file.ReadJsonData().then((value) => items=value);*/
           itemToShowLength=realItemLength;
 
         }
@@ -149,13 +159,7 @@ class _ContactScreenState extends State<ContactScreen> {
         !_controller.position.outOfRange) {
       setState(() {
         for(int i=0;i<5;i++){
-          var username = UsernameGen.generateWith(
-              data: UsernameGenData(
-                names: ['new names'],
-                adjectives: ['new names'],
-              ),
-              seperator: ' '
-          );
+          String username = UsernameGen().generate();
 
           int min = 1000000; //min and max values act as your 6 digit range
           int max = 9999999;
@@ -164,6 +168,8 @@ class _ContactScreenState extends State<ContactScreen> {
 
           var CurrentDateTime=DateTime.now();
 
+          print(username+"\n"+ "01"+rNum.toString()+"\n"+CurrentDateTime.toString());
+          file.writeToFile(username, "01"+rNum.toString(), CurrentDateTime.toString());
         }
 
       });

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:intl/intl.dart';
@@ -8,6 +9,24 @@ import 'package:flutter/services.dart';
 
 
 class FileManager {
+  TextEditingController keyInputController = new TextEditingController();
+  TextEditingController valueInputController = new TextEditingController();
+
+  late File jsonFile;
+  late Directory dir;
+  String fileName = "AllContacts.json";
+  bool fileExists = false;
+  late Map<String, dynamic> fileContent;
+
+  Future<void> initState() async {
+    final directory = await getExternalStorageDirectory();
+    dir = directory!;
+    jsonFile = new File(dir.path + "/" + fileName);
+    fileExists = jsonFile.existsSync();
+    if (fileExists) { fileContent = json.decode(jsonFile.readAsStringSync());
+    }
+
+  }
 
 /*  FileManager _instance=FileManager();
 
@@ -17,9 +36,15 @@ class FileManager {
 
   factory FileManager() =>  FileManager._internal();*/
 
-  Future<File> get _jsonFile async {
-    return File('assets/files/AllContacts.json');
+/*  Future<String?> get _localPath async {
+    final directory = await getExternalStorageDirectory();
+    return directory?.path;
   }
+
+  Future<File> get _jsonFile async {
+    final path = await _localPath;
+    return File('$path/AllContacts.json');
+  }*/
 
   Future<List> ReadJsonData() async {
     //read json file
@@ -56,12 +81,37 @@ class FileManager {
 
   }
 
-  Future<contact> writeJsonFile(String Name, String Phone,String CheckIn) async {
+/*  Future<void> writeJsonFile(String Name, String Phone,String CheckIn) async {
     final contact user = contact(Name, Phone, CheckIn);
 
     File file = await _jsonFile;
     await file.writeAsString(json.encode(user));
-    return user;
+  }*/
+
+  Future<void> writeToFile(String Name, String Phone,String CheckIn) async {
+    if (kDebugMode) {
+      print("Writing to file!");
+    }
+    Map<String, dynamic> content = {'user': Name,'phone': Phone,'check-in': CheckIn};
+
+    if (fileExists) {
+      print("File exists");
+      Map<String, dynamic> jsonFileContent = json.decode(jsonFile.readAsStringSync());
+      jsonFileContent.addAll(content);
+
+      jsonFile.writeAsStringSync(json.encode(jsonFileContent));
+    } else {
+      print("File does not exist!");
+      createFile(content, dir, fileName);
+    }
+  }
+
+  void createFile(Map<String, dynamic> content, Directory dir, String fileName) {
+    print("Creating file!");
+    File file = new File(dir.path + "/" + fileName);
+    file.createSync();
+    fileExists = true;
+    file.writeAsStringSync(json.encode(content));
   }
 }
 
