@@ -64,7 +64,6 @@ class _MyHomePageState extends State<MyHomePage> {
         home:
             Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.blue.shade400,
             centerTitle: true,
             title: Text(widget.title,style: const TextStyle(fontFamily: 'DancingScript'))
           ),
@@ -92,17 +91,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
                     duration: index==0? const Duration(milliseconds: 1000) : index==1?const Duration(milliseconds: 2000) : const Duration(milliseconds: 2500),
                     child:FadeInAnimation(
-                        child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)), elevation: 10,color: index==0? Colors.blue.shade50 : index==1?Colors.orange.shade50:Colors.brown.shade50 ,
+                        child: Card(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)), elevation: 10,color: _isDark? Colors.black12:index==0? Colors.blue.shade50 : index==1?Colors.orange.shade50:Colors.brown.shade50 ,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children:index==0?  <Widget>[
-                                SvgPicture.asset('assets/images/contact.svg',height: 200,),const Text('\nMy Log Book', style: TextStyle(fontSize:38 ,fontFamily: 'DancingScript',color: Colors.black54)),
+                                SvgPicture.asset('assets/images/contact.svg',height: 200,color: _isDark?Colors.black:Colors.blueAccent.shade200),const Text('\nMy Log Book', style: TextStyle(fontSize:38 ,fontFamily: 'DancingScript',color: Colors.black54)),
                               ]:index==1?<Widget>[
-                                SvgPicture.asset('assets/images/about.svg',height: 100),const Text('About', style: TextStyle(fontSize:30 ,fontFamily: 'DancingScript',color: Colors.black54)),
+                                SvgPicture.asset('assets/images/about.svg',height: 100,color: _isDark?Colors.black:Colors.blueAccent.shade200 ),const Text('About', style: TextStyle(fontSize:30 ,fontFamily: 'DancingScript',color: Colors.black54)),
                               ]:<Widget>[
-                                SvgPicture.asset('assets/images/settings.svg',height: 100,),const Text('Settings', style: TextStyle(fontSize:30 ,fontFamily: 'DancingScript',color: Colors.black54)),
+                                SvgPicture.asset('assets/images/settings.svg',height: 100,color: _isDark?Colors.black:Colors.blueAccent.shade200),const Text('Settings', style: TextStyle(fontSize:30 ,fontFamily: 'DancingScript',color: Colors.black54)),
                               ]
 
                             )
