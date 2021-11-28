@@ -7,13 +7,18 @@ class Themes {
   Themes.internal();
 
   getThemeLight() {
-    return ThemeData.light().copyWith(
+
+    return ThemeData(
+      brightness: Brightness.light,
+      fontFamily: "Open sans",
       primaryColor: Colors.green,
     );
   }
 
   getThemeDark() {
-    return ThemeData.dark().copyWith(
+    return ThemeData(
+      brightness: Brightness.dark,
+      fontFamily: "Open sans",
       primaryColor: Colors.blueGrey,
     );
   }

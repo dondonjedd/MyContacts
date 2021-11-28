@@ -1,11 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'FileManager.dart';
 import 'package:share/share.dart';
-
 import 'Themes.dart';
 
 
@@ -22,8 +20,8 @@ class _ContactScreenState extends State<ContactScreen> {
   late List<bool> isSelected;
   FileManager file=FileManager();
   final ScrollController _controller=ScrollController();
-  ThemeData _light = Themes().getThemeLight();
-  ThemeData _dark = Themes().getThemeDark();
+  final ThemeData _light = Themes().getThemeLight();
+  final ThemeData _dark = Themes().getThemeDark();
   var _isDark=false;
 
   @override
@@ -68,7 +66,7 @@ class _ContactScreenState extends State<ContactScreen> {
         theme: _light,
         themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
         home:  Scaffold(
-            appBar: AppBar(title: const Text("All Contacts"),
+            appBar: AppBar(title: const Text("All Contacts",style: TextStyle(fontFamily: 'DancingScript')),
               actions: [Container(
                 margin: const EdgeInsets.all(8),
                 child:
@@ -220,14 +218,6 @@ class _ContactScreenState extends State<ContactScreen> {
       _isDark = prefs.getBool('DarkMode')!;
     });
 
-  }
-
-  _setisDarkMode(bool bol) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      prefs.setBool('DarkMode',bol);
-    });
   }
 }
 
