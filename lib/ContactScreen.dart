@@ -106,6 +106,7 @@ class _ContactScreenState extends State<ContactScreen> {
                         msg: "5 contacts generated",
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.CENTER,
+                        backgroundColor: Colors.black.withAlpha(130),
                         timeInSecForIosWeb: 1
                     );
                     items=file.ReadJsonData();
@@ -149,10 +150,9 @@ class _ContactScreenState extends State<ContactScreen> {
                       );
 
                      }else{
-                      return const CircularProgressIndicator();}
+                      return const Center(child: CircularProgressIndicator());}
                     }else{
-                    return const CircularProgressIndicator();
-                  }
+                    return const Center(child: CircularProgressIndicator());}
                   }
             )
         )
