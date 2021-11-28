@@ -42,4 +42,7 @@ installed applications on the mobile.
 10. share: ^2.0.4
 11. animated_splash_screen: ^1.1.0
 
+## Download apk here:
+https://drive.google.com/file/d/1TxTlux4LWkfCrwGYbcOVyO3zphE3dn-C/view?usp=sharing
+
 
