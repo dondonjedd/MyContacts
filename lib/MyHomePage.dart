@@ -27,8 +27,8 @@ class MyHomePage extends StatefulWidget {
 
 
 class _MyHomePageState extends State<MyHomePage> {
-  ThemeData _light = Themes().getThemeLight();
-  ThemeData _dark = Themes().getThemeDark();
+  final ThemeData _light = Themes().getThemeLight();
+  final ThemeData _dark = Themes().getThemeDark();
   bool _isDark=true;
 
   @override
@@ -50,6 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
     double height = MediaQuery.of(context).size.height;
     double barheight =AppBar().preferredSize.height;
     double padding=20;
+
+    void parentChange(bol) {
+      setState(() {
+        _isDark = bol;
+      });
+    }
 
     return MaterialApp(
         darkTheme:_dark,
@@ -77,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => index==0? const ContactScreen() :index==1?const AboutScreen():const SettingsScreen(),
+                        builder: (context) => index==0? const ContactScreen() :index==1?const AboutScreen(): SettingsScreen(customFunction:parentChange),
                     ),
                   );
                 },
@@ -121,14 +127,6 @@ class _MyHomePageState extends State<MyHomePage> {
       _isDark = prefs.getBool('DarkMode')!;
     });
 
-  }
-
-  _setisDarkMode(bool bol) async {
-    final prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      prefs.setBool('DarkMode',bol);
-    });
   }
 }
 

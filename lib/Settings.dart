@@ -4,7 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Themes.dart';
 
 class SettingsScreen extends StatefulWidget {
-  const SettingsScreen({Key? key}) : super(key: key);
+  final customFunction;
+  const SettingsScreen({Key? key, this.customFunction}) : super(key: key);
+
 
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
@@ -42,6 +44,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     setState(() {
                       _isDark = !_isDark;
                      _setisDarkMode(_isDark);
+                      widget.customFunction(_isDark);
                     });
                   },
                   ),
