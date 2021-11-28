@@ -43,6 +43,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     Text('Dark Mode:\t\t',style: TextStyle(fontSize: 20)),
                     CupertinoSwitch(
                       value: _isDark,
+                      activeColor: Colors.blue.shade400,
                       onChanged: (v) {
                         setState(() {
                           _isDark = !_isDark;

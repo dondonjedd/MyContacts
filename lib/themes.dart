@@ -11,7 +11,6 @@ class Themes {
     return ThemeData(
       brightness: Brightness.light,
       fontFamily: "Open sans",
-      primaryColor: Colors.green,
     );
   }
 
@@ -19,7 +18,6 @@ class Themes {
     return ThemeData(
       brightness: Brightness.dark,
       fontFamily: "Open sans",
-      primaryColor: Colors.blueGrey,
     );
   }
 }
