@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
@@ -9,9 +8,6 @@ import 'package:username_gen/username_gen.dart';
 
 
 class FileManager {
-  TextEditingController keyInputController = new TextEditingController();
-  TextEditingController valueInputController = new TextEditingController();
-
   late File jsonFile;
   late Directory dir;
   String fileName = "AllContacts.json";
