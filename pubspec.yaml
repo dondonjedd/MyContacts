@@ -74,6 +74,7 @@ flutter:
     - assets/images/contact.svg
     - assets/images/settings.svg
     - assets/images/about.svg
+    - assets/images/vimigo.svg
     - assets/files/AllContacts.json
 
 
