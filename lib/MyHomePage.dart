@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
         theme: _light,
         themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
         home:
-            Scaffold(
+        Scaffold(
           appBar: AppBar(
             centerTitle: true,
             title: Text(widget.title,style: const TextStyle(fontFamily: 'DancingScript'))

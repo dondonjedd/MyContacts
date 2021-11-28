@@ -32,28 +32,31 @@ class _SettingsScreenState extends State<SettingsScreen> {
       theme: _light,
       themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
         home:  Scaffold(
+          appBar: AppBar(
+              centerTitle: true,
+              title: const Text("Settings",style: TextStyle(fontFamily: 'DancingScript'))
+          ),
           body: Padding(
             padding:EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 80),
-                  child: CupertinoSwitch(
-                  value: _isDark,
-                  onChanged: (v) {
-                    setState(() {
-                      _isDark = !_isDark;
-                     _setisDarkMode(_isDark);
-                      widget.customFunction(_isDark);
-                    });
-                  },
-                  ),
-                ),
-              ]
+              child:Row(
+                  children:[
+                    Text('Dark Mode:\t\t',style: TextStyle(fontSize: 20)),
+                    CupertinoSwitch(
+                      value: _isDark,
+                      onChanged: (v) {
+                        setState(() {
+                          _isDark = !_isDark;
+                          _setisDarkMode(_isDark);
+                          widget.customFunction(_isDark);
+                        });
+                      },
+                    )
+                  ],
+              )
             )
           )
-        )
     );
+
   }
 
   _getisDarkMode() async {
