@@ -43,13 +43,9 @@ class _AboutScreenState extends State<AboutScreen> {
                       children: const [
                         Text("Developed by : Brandon Jedd Arius Jipiu\n"),
                         Text("\nDescription:\nVimigo's candidate technical assessment to asses the candidate's skill"),
-                        Text("\nPlugins used:\n1. cupertino_icons\n2.flutter_svg \n3.flutter_staggered_grid_view"
-                            " \n4.flutter_staggered_animations \n5.intl \n6.fluttertoast \n7.shared_preferences \n8.username_gen"
-                            " \n9.path_provider \n10.share ")
-
-
-
-
+                        Text("\nPlugins used:\n1. cupertino_icons\n2. flutter_svg \n3. flutter_staggered_grid_view"
+                            " \n4.flutter_staggered_animations \n5.intl \n6. fluttertoast \n7. shared_preferences \n8. username_gen"
+                            " \n9. path_provider \n10. share \n11. animated_splash_screen: ")
                       ]),
                 )
             )
