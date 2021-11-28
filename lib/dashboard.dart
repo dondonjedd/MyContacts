@@ -29,7 +29,7 @@ class DashBoard extends StatefulWidget {
 class _DashBoardState extends State<DashBoard> {
   final ThemeData _light = Themes().getThemeLight();
   final ThemeData _dark = Themes().getThemeDark();
-  bool _isDark=true;
+  bool _isDark=false;
 
   @override
   void initState() {
