@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       title: 'My Contacts',
       home:AnimatedSplashScreen(
-          duration: 3000,
+          duration: 2000,
           splash: SvgPicture.asset('assets/images/vimigo.svg',),
           nextScreen: const DashBoard(title: 'Main Menu'),
           splashTransition: SplashTransition.fadeTransition,
