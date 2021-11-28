@@ -172,6 +172,7 @@ class _ContactScreenState extends State<ContactScreen> {
               msg: "You have reached end of the list",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.black.withAlpha(130),
               timeInSecForIosWeb: 1
           );
         }else{
@@ -179,6 +180,7 @@ class _ContactScreenState extends State<ContactScreen> {
               msg: "Remaining contacts loaded",
               toastLength: Toast.LENGTH_SHORT,
               gravity: ToastGravity.CENTER,
+              backgroundColor: Colors.black.withAlpha(130),
               timeInSecForIosWeb: 1
           );
           showAll=true;
