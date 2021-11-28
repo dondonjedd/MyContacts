@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:mycontacts/themes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({Key? key}) : super(key: key);
@@ -15,6 +16,12 @@ class _AboutScreenState extends State<AboutScreen> {
   final ThemeData _light = Themes().getThemeLight();
   final ThemeData _dark = Themes().getThemeDark();
   var _isDark=false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    _getisDarkMode();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -49,5 +56,14 @@ class _AboutScreenState extends State<AboutScreen> {
           )
         )
     );
+  }
+
+  _getisDarkMode() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      _isDark = prefs.getBool('DarkMode')!;
+    });
+
   }
 }
