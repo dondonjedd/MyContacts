@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'FileManager.dart';
+import 'file_manager.dart';
 import 'package:share/share.dart';
-import 'Themes.dart';
+import 'themes.dart';
 
 
 class ContactScreen extends StatefulWidget {

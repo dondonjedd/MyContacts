@@ -4,13 +4,13 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'AboutScreen.dart';
-import 'ContactScreen.dart';
-import 'Settings.dart';
-import 'Themes.dart';
+import 'about_screen.dart';
+import 'contact_screen.dart';
+import 'settings.dart';
+import 'themes.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+class DashBoard extends StatefulWidget {
+  const DashBoard({Key? key, required this.title}) : super(key: key);
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
   // how it looks.
@@ -21,12 +21,12 @@ class MyHomePage extends StatefulWidget {
   // always marked "final".
   final String title;
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _DashBoardState createState() => _DashBoardState();
 }
 
 
 
-class _MyHomePageState extends State<MyHomePage> {
+class _DashBoardState extends State<DashBoard> {
   final ThemeData _light = Themes().getThemeLight();
   final ThemeData _dark = Themes().getThemeDark();
   bool _isDark=true;

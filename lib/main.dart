@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'MyHomePage.dart';
+import 'dashboard.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'My Contacts',
 
-      home: MyHomePage(title: 'Main Menu'),
+      home: DashBoard(title: 'Main Menu'),
     );
   }
 }
