@@ -25,26 +25,7 @@ class FileManager {
     fileExists = jsonFile.existsSync();
     if (fileExists) { fileContent = json.decode(jsonFile.readAsStringSync());
     }
-
   }
-
-/*  FileManager _instance=FileManager();
-
-  FileManager._internal() {
-  _instance = this;
-  }
-
-  factory FileManager() =>  FileManager._internal();*/
-
-/*  Future<String?> get _localPath async {
-    final directory = await getExternalStorageDirectory();
-    return directory?.path;
-  }
-
-  Future<File> get _jsonFile async {
-    final path = await _localPath;
-    return File('$path/AllContacts.json');
-  }*/
 
   Future<List> ReadJsonData() async {
     //read json file
@@ -91,7 +72,6 @@ class FileManager {
       items.add(tmpArray);
     }
     return items;
-
   }
 
   generateUser<Map>(){
@@ -105,13 +85,6 @@ class FileManager {
     var CurrentDateTime=DateTime.now();
     return {"user":username,"phone":rNum.toString(),"check-in":CurrentDateTime.toString()};
   }
-
-/*  Future<void> writeJsonFile(String Name, String Phone,String CheckIn) async {
-    final contact user = contact(Name, Phone, CheckIn);
-
-    File file = await _jsonFile;
-    await file.writeAsString(json.encode(user));
-  }*/
 
   Future<void> writeToFile(String Name, String Phone,String CheckIn) async {
     if (kDebugMode) {
