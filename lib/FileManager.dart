@@ -75,10 +75,11 @@ class FileManager {
   }
 
   generateUser<Map>(){
-    String username = UsernameGen().generate();
+    String username = UsernameGen.generateWith(seperator: ' ');
+    username=(username.split(" "))[0];
 
-    int min = 1000000; //min and max values act as your 6 digit range
-    int max = 9999999;
+    int min = 10000000; //min and max values act as your 8 digit range
+    int max = 99999999;
     var randomizer = Random();
     var rNum = min + randomizer.nextInt(max - min);
 
