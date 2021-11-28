@@ -35,6 +35,9 @@ class _ContactScreenState extends State<ContactScreen> {
 
   }
 
+  /*
+  get the current time format selected
+   */
   _getTimeFormatFromSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -42,6 +45,9 @@ class _ContactScreenState extends State<ContactScreen> {
     });
   }
 
+  /*
+  save the current time format selected
+   */
   _saveTimeFormatFromSharedPref() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -158,16 +164,22 @@ class _ContactScreenState extends State<ContactScreen> {
         )
     );
   }
+
+  /*
+  Share date in arguments to other existing applications
+   */
   _onShare(BuildContext context, List data,int index) async {
     await Share.share(data[index]["user"]+"\n"+data[index]["phone"]+"\n"+data[index]["date"]+"\n"+data[index]["time"]);
   }
 
-
+  /*
+  Listens to changes in the user's scroll
+   */
   _scrollListener() {
-    if (_controller.offset >= _controller.position.maxScrollExtent &&
+    if (_controller.offset >= _controller.position.maxScrollExtent && //User has scrolled to the end of the list
         !_controller.position.outOfRange) {
       setState(() {
-        if(showAll){
+        if(showAll){  // if all the datas should be shown
           Fluttertoast.showToast(
               msg: "You have reached end of the list",
               toastLength: Toast.LENGTH_SHORT,

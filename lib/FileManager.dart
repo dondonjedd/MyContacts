@@ -6,8 +6,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
 import 'package:username_gen/username_gen.dart';
 
-
+/*
+Class which manages all the app's interaction with json files
+*/
 class FileManager {
+
   late File jsonFile;
   late Directory dir;
   String fileName = "AllContacts.json";
@@ -23,6 +26,10 @@ class FileManager {
     }
   }
 
+  /*
+  If jsonfile exists, read data from json file.
+  If not, create json file, generate 30 random contacts and then read the file
+  */
   Future<List> ReadJsonData() async {
     //read json file
     List data=[];
@@ -63,13 +70,17 @@ class FileManager {
         'phone':data[i]['phone'],
         'date':dateString,
         'time':clockString,
-        'timeAgo':convertToAgo(parsedDateTime)
+        'timeAgo':convertToTimeAgoFormat(parsedDateTime)
       };
       items.add(tmpArray);
     }
     return items;
   }
 
+  /*
+  Generate a user with attribute user, phone, check-in
+  returns a map
+   */
   generateUser<Map>(){
     String username = UsernameGen.generateWith(seperator: ' ');
     username=(username.split(" "))[0];
@@ -97,6 +108,9 @@ class FileManager {
     }
   }
 
+  /*
+  Create a new json file to the specified directory
+   */
   void createFile(List content , Directory dir, String fileName) {
     print("Creating file!");
     File file = File(dir.path + "/" + fileName);
@@ -104,40 +118,24 @@ class FileManager {
     fileExists = true;
     file.writeAsStringSync(json.encode(content));
   }
-}
 
-class contact {
-  var name;
-  var phone;
-  var checkIn;
+  /*
+  Compare DateTime in arg to the current DateTime
+  Returns the difference in time ago format
+   */
+  String convertToTimeAgoFormat(DateTime input){
+    Duration diff = DateTime.now().difference(input);
 
-  contact(String Name, String Phone,String CheckIn);
-
-  contact.fromJson(Map<String, dynamic> json)
-      : name = json['user'],
-        phone = json['phone'],
-        checkIn = json['check-in'];
-
-  Map<String, dynamic> toJson() => {
-    'name': name,
-    'phone': phone,
-    'check-in': checkIn,
-  };
-}
-
-
-String convertToAgo(DateTime input){
-  Duration diff = DateTime.now().difference(input);
-
-  if(diff.inDays >= 1){
-    return '${diff.inDays} day(s) ago';
-  } else if(diff.inHours >= 1){
-    return '${diff.inHours} hour(s) ago';
-  } else if(diff.inMinutes >= 1){
-    return '${diff.inMinutes} minute(s) ago';
-  } else if (diff.inSeconds >= 1){
-    return '${diff.inSeconds} second(s) ago';
-  } else {
-    return 'just now';
+    if(diff.inDays >= 1){
+      return '${diff.inDays} day(s) ago';
+    } else if(diff.inHours >= 1){
+      return '${diff.inHours} hour(s) ago';
+    } else if(diff.inMinutes >= 1){
+      return '${diff.inMinutes} minute(s) ago';
+    } else if (diff.inSeconds >= 1){
+      return '${diff.inSeconds} second(s) ago';
+    } else {
+      return 'just now';
+    }
   }
 }
