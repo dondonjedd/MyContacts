@@ -100,17 +100,8 @@ class _ContactScreenState extends State<ContactScreen> {
 
                   setState(() {
                     for(int i=0;i<5;i++){
-                      String username = UsernameGen().generate();
-
-                      int min = 1000000; //min and max values act as your 6 digit range
-                      int max = 9999999;
-                      var randomizer = Random();
-                      var rNum = min + randomizer.nextInt(max - min);
-
-                      var CurrentDateTime=DateTime.now();
-
-                      print(username+"\n"+ "01"+rNum.toString()+"\n"+CurrentDateTime.toString());
-                      file.writeToFile(username, "01"+rNum.toString(), CurrentDateTime.toString());
+                      Map generatedUser=file.generateUser();
+                      file.writeToFile(generatedUser["user"], "01"+generatedUser["phone"],generatedUser["check-in"]);
                     }
                     Fluttertoast.showToast(
                         msg: "5 contacts generated",
@@ -136,29 +127,38 @@ class _ContactScreenState extends State<ContactScreen> {
                             itemCount: showAll?(snapshot.data as List).length:15,
                             controller: _controller,
                             itemBuilder: (context, index) {
-                              return Card(
-                                margin: const EdgeInsets.all(10),
-                                child: ListTile(
-                                  leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
-                                  title: Text((snapshot.data as List)[index]["phone"]),
-                                  subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
-                                ),
+                              return GestureDetector(
+                                  child: Card(
+                                    margin: const EdgeInsets.all(10),
+                                    child: ListTile(
+                                      leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
+                                      title: Text((snapshot.data as List)[index]["phone"]),
+                                      subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
+                                    ),
+                                  ),
+                                  onLongPress: (){
+                                    _onShare(context,snapshot.data as List,index);
+                                  },
                               );
+
                             },
                           )
                       );
 
                      }else{
-                      return new CircularProgressIndicator();}
+                      return const CircularProgressIndicator();}
                     }else{
-                    return new CircularProgressIndicator();
+                    return const CircularProgressIndicator();
                   }
                   }
             )
         )
     );
   }
-  //previous json position
+  _onShare(BuildContext context, List data,int index) async {
+    await Share.share(data[index]["user"]+"\n"+data[index]["phone"]+"\n"+data[index]["date"]+"\n"+data[index]["time"]);
+  }
+
 
   _scrollListener() {
     if (_controller.offset >= _controller.position.maxScrollExtent &&
