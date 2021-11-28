@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'FileManager.dart';
@@ -122,21 +123,25 @@ class _ContactScreenState extends State<ContactScreen> {
                       return Scrollbar(
                           isAlwaysShown: true,
                           child:ListView.builder(
+                            cacheExtent: 9999,
                             itemCount: showAll?(snapshot.data as List).length:15,
                             controller: _controller,
                             itemBuilder: (context, index) {
                               return GestureDetector(
-                                  child: Card(
-                                    margin: const EdgeInsets.all(10),
-                                    child: ListTile(
-                                      leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
-                                      title: Text((snapshot.data as List)[index]["phone"]),
-                                      subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
+                                  child: AnimationConfiguration.staggeredGrid(columnCount: 1,position: index, child: ScaleAnimation(
+                                    child: Card(
+                                      margin: const EdgeInsets.all(10),
+                                      child: ListTile(
+                                        leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
+                                        title: Text((snapshot.data as List)[index]["phone"]),
+                                        subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
+                                      ),
                                     ),
+                                  )
                                   ),
-                                  onLongPress: (){
-                                    _onShare(context,snapshot.data as List,index);
-                                  },
+                                onLongPress: (){
+                                  _onShare(context,snapshot.data as List,index);
+                                },
                               );
 
                             },
