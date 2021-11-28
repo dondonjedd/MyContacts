@@ -6,6 +6,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'FileManager.dart';
 import 'package:share/share.dart';
 
+import 'Themes.dart';
+
 
 class ContactScreen extends StatefulWidget {
   const ContactScreen({Key? key}) : super(key: key);
@@ -20,6 +22,9 @@ class _ContactScreenState extends State<ContactScreen> {
   late List<bool> isSelected;
   FileManager file=FileManager();
   final ScrollController _controller=ScrollController();
+  ThemeData _light = Themes().getThemeLight();
+  ThemeData _dark = Themes().getThemeDark();
+  var _isDark=false;
 
   @override
   void initState() {
@@ -30,6 +35,7 @@ class _ContactScreenState extends State<ContactScreen> {
     bool bol=false;
     isSelected = [ bol, !bol];
     _getTimeFormatFromSharedPref();
+    _getisDarkMode();
 
     super.initState();
 
@@ -57,109 +63,114 @@ class _ContactScreenState extends State<ContactScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(title: const Text("All Contacts"),
-          actions: [Container(
-            margin: const EdgeInsets.all(8),
-            child:
-              ToggleButtons(
-                borderColor: Colors.blueGrey,
-                fillColor: Colors.white70,
-                borderWidth: 0.5,
-                selectedBorderColor: Colors.white,
-                selectedColor: Colors.blueGrey,
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(30),
-                children: const <Widget>[
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      '12 hour',
-                      style: TextStyle(fontSize: 12),
-                    ),
+    return MaterialApp(
+        darkTheme:_dark,
+        theme: _light,
+        themeMode: _isDark ? ThemeMode.dark : ThemeMode.light,
+        home:  Scaffold(
+            appBar: AppBar(title: const Text("All Contacts"),
+              actions: [Container(
+                margin: const EdgeInsets.all(8),
+                child:
+                  ToggleButtons(
+                    borderColor: Colors.blueGrey,
+                    fillColor: Colors.white70,
+                    borderWidth: 0.5,
+                    selectedBorderColor: Colors.white,
+                    selectedColor: Colors.blueGrey,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(30),
+                    children: const <Widget>[
+                      Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Text(
+                          '12 hour',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(12.0),
+                        child: Text(
+                          'Time ago',
+                          style: TextStyle(fontSize: 12),
+                        ),
+                      ),
+                    ],
+                    onPressed: (int index) {
+                      setState(() {
+                        for (int i = 0; i < isSelected.length; i++) {
+                          isSelected[i] = i == index;
+                        }
+                        _saveTimeFormatFromSharedPref();
+                      });
+                    },
+                    isSelected: isSelected,
                   ),
-                  Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text(
-                      'Time ago',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ),
-                ],
-                onPressed: (int index) {
-                  setState(() {
-                    for (int i = 0; i < isSelected.length; i++) {
-                      isSelected[i] = i == index;
-                    }
-                    _saveTimeFormatFromSharedPref();
-                  });
-                },
-                isSelected: isSelected,
-              ),
-          )],
-        ),
-        body: RefreshIndicator(
-            onRefresh: () {
-              return Future.delayed(
-                const Duration(seconds: 1), () {
+              )],
+            ),
+            body: RefreshIndicator(
+                onRefresh: () {
+                  return Future.delayed(
+                    const Duration(seconds: 1), () {
 
-                  setState(() {
-                    for(int i=0;i<5;i++){
-                      Map generatedUser=file.generateUser();
-                      file.writeToFile(generatedUser["user"], "01"+generatedUser["phone"],generatedUser["check-in"]);
-                    }
-                    Fluttertoast.showToast(
-                        msg: "5 contacts generated",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.CENTER,
-                        backgroundColor: Colors.black.withAlpha(130),
-                        timeInSecForIosWeb: 1
-                    );
-                    items=file.ReadJsonData();
-                  });
+                      setState(() {
+                        for(int i=0;i<5;i++){
+                          Map generatedUser=file.generateUser();
+                          file.writeToFile(generatedUser["user"], "01"+generatedUser["phone"],generatedUser["check-in"]);
+                        }
+                        Fluttertoast.showToast(
+                            msg: "5 contacts generated",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: Colors.black.withAlpha(130),
+                            timeInSecForIosWeb: 1
+                        );
+                        items=file.ReadJsonData();
+                      });
 
+                    },
+                  );
                 },
-              );
-            },
-            child: FutureBuilder(
-              future:items,
-                builder:(context, snapshot,){
-                  if (snapshot.hasData) {
-                    if (snapshot.data != null) {
-                      realItemLength=(snapshot.data! as List).length;
-                      return Scrollbar(
-                          isAlwaysShown: true,
-                          child:ListView.builder(
-                            cacheExtent: 9999,
-                            itemCount: showAll?(snapshot.data as List).length:15,
-                            controller: _controller,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                  child: AnimationConfiguration.staggeredGrid(columnCount: 1,position: index, child: ScaleAnimation(
-                                    child: Card(
-                                      margin: const EdgeInsets.all(10),
-                                      child: ListTile(
-                                        leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
-                                        title: Text((snapshot.data as List)[index]["phone"]),
-                                        subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
+                child: FutureBuilder(
+                  future:items,
+                    builder:(context, snapshot,){
+                      if (snapshot.hasData) {
+                        if (snapshot.data != null) {
+                          realItemLength=(snapshot.data! as List).length;
+                          return Scrollbar(
+                              isAlwaysShown: true,
+                              child:ListView.builder(
+                                cacheExtent: 9999,
+                                itemCount: showAll?(snapshot.data as List).length:15,
+                                controller: _controller,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                      child: AnimationConfiguration.staggeredGrid(columnCount: 1,position: index, child: ScaleAnimation(
+                                        child: Card(
+                                          margin: const EdgeInsets.all(10),
+                                          child: ListTile(
+                                            leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
+                                            title: Text((snapshot.data as List)[index]["phone"]),
+                                            subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
+                                          ),
+                                        ),
+                                      )
                                       ),
-                                    ),
-                                  )
-                                  ),
-                                onLongPress: (){
-                                  _onShare(context,snapshot.data as List,index);
+                                    onLongPress: (){
+                                      _onShare(context,snapshot.data as List,index);
+                                    },
+                                  );
+
                                 },
-                              );
+                              )
+                          );
 
-                            },
-                          )
-                      );
-
-                     }else{
-                      return const Center(child: CircularProgressIndicator());}
-                    }else{
-                    return const Center(child: CircularProgressIndicator());}
-                  }
+                         }else{
+                          return const Center(child: CircularProgressIndicator());}
+                        }else{
+                        return const Center(child: CircularProgressIndicator());}
+                      }
+                )
             )
         )
     );
@@ -200,6 +211,23 @@ class _ContactScreenState extends State<ContactScreen> {
 
       });
     }
+  }
+
+  _getisDarkMode() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      _isDark = prefs.getBool('DarkMode')!;
+    });
+
+  }
+
+  _setisDarkMode(bool bol) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      prefs.setBool('DarkMode',bol);
+    });
   }
 }
 
