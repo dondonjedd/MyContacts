@@ -43,6 +43,7 @@ dependencies:
   username_gen: ^1.0.4
   path_provider: ^2.0.7
   share: ^2.0.4
+  animated_splash_screen: ^1.1.0
 
 dev_dependencies:
   flutter_test:
