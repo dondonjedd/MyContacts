@@ -78,7 +78,7 @@ class FileManager {
   }
 
   /*
-  Generate a user with attribute user, phone, check-in
+  Generate a random user with attribute user, phone, check-in
   returns a map
    */
   generateUser<Map>(){

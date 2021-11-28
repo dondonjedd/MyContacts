@@ -3,6 +3,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svg/svg.dart';
+import 'AboutScreen.dart';
 import 'ContactScreen.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -58,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => index==0? const ContactScreen() :const Text('not configured yet'),
+                    builder: (context) => index==0? const ContactScreen() :index==1?const AboutScreen():const SettingsScreen(),
                 ),
               );
             },
