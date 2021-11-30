@@ -42,7 +42,15 @@ installed applications on the mobile.
 10. share: ^2.0.4
 11. animated_splash_screen: ^1.1.0
 
-## Download apk here:
+## Future developments
+1. Create a tutorial for the application
+2. Display last refreshed time in list of contacts
+3. Add a picture to a contact
+
+## Download android apk here:
 https://drive.google.com/file/d/1TxTlux4LWkfCrwGYbcOVyO3zphE3dn-C/view?usp=sharing
+
+## Download IOS ipa here:
+not available yet
 
 
