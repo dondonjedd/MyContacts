@@ -60,6 +60,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   }
 
+  //get booelan of dark mode
   _getisDarkMode() async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -69,6 +70,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   }
 
+  //set to dark mode to true or false
   _setisDarkMode(bool bol) async {
     final prefs = await SharedPreferences.getInstance();
 

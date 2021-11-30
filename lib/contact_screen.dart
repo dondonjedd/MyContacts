@@ -25,9 +25,14 @@ class _ContactScreenState extends State<ContactScreen> {
   final ThemeData _dark = Themes().getThemeDark();
   var _isDark=false;
 
+
+  //initialise all variables
   @override
   void initState() {
+    //initialise filemanager
     file.initState();
+
+    //initialise scrollListener
     _controller.addListener(_scrollListener);
 
     items=file.ReadJsonData();
@@ -196,7 +201,7 @@ class _ContactScreenState extends State<ContactScreen> {
               backgroundColor: Colors.black.withAlpha(130),
               timeInSecForIosWeb: 1
           );
-        }else{
+        }else{ //user has scrolled to 15 contacts
           Fluttertoast.showToast(
               msg: "Remaining contacts loaded",
               toastLength: Toast.LENGTH_SHORT,
@@ -211,6 +216,8 @@ class _ContactScreenState extends State<ContactScreen> {
     }
   }
 
+
+  //get boolean of dark mode
   _getisDarkMode() async {
     final prefs = await SharedPreferences.getInstance();
 

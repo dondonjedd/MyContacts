@@ -6,14 +6,15 @@ class Themes {
   }
   Themes.internal();
 
+  //theme for light mode
   getThemeLight() {
-
     return ThemeData(
       brightness: Brightness.light,
       fontFamily: "Open sans",
     );
   }
 
+  //theme for dark mode
   getThemeDark() {
     return ThemeData(
       brightness: Brightness.dark,

@@ -9,14 +9,14 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
+  // the root of application.
   @override
   Widget build(BuildContext context) {
     return  MaterialApp(
       title: 'My Contacts',
       home:AnimatedSplashScreen(
           duration: 2000,
-          splash: SvgPicture.asset('assets/images/vimigo.svg',),
+          splash: SvgPicture.asset('assets/images/vimigo.svg',), //load vimigo icon on splash screen
           nextScreen: const DashBoard(title: 'Main Menu'),
           splashTransition: SplashTransition.fadeTransition,
           backgroundColor: Colors.blue

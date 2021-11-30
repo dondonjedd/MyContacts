@@ -54,6 +54,7 @@ class _AboutScreenState extends State<AboutScreen> {
     );
   }
 
+  // get boolean of dark mode
   _getisDarkMode() async {
     final prefs = await SharedPreferences.getInstance();
 
