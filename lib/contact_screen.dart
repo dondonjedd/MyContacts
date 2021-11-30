@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'file_manager.dart';
@@ -142,23 +143,18 @@ class _ContactScreenState extends State<ContactScreen> {
                                 itemCount: showAll?(snapshot.data as List).length:15,
                                 controller: _controller,
                                 itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                      child: AnimationConfiguration.staggeredGrid(columnCount: 1,position: index, child: ScaleAnimation(
-                                        child: Card(
-                                          margin: const EdgeInsets.all(10),
-                                          child: ListTile(
-                                            leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
-                                            title: Text((snapshot.data as List)[index]["phone"]),
-                                            subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
-                                          ),
-                                        ),
-                                      )
+                                  return  AnimationConfiguration.staggeredGrid(columnCount: 1,position: index, child: ScaleAnimation(
+                                    child: Card(
+                                      margin: const EdgeInsets.all(10),
+                                      child: ListTile(
+                                        leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
+                                        title: Text((snapshot.data as List)[index]["phone"]),tileColor: Colors.blueGrey.shade50,
+                                        subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
+                                        trailing: IconButton(onPressed: () { _onShare(context,snapshot.data as List,index); }, icon: SvgPicture.asset('assets/images/shareBtn.svg',height: 15,color: Colors.blue.shade300))
                                       ),
-                                    onLongPress: (){
-                                      _onShare(context,snapshot.data as List,index);
-                                    },
+                                    ),
+                                  )
                                   );
-
                                 },
                               )
                           );
