@@ -148,9 +148,11 @@ class _ContactScreenState extends State<ContactScreen> {
                                       margin: const EdgeInsets.all(10),
                                       child: ListTile(
                                         leading: Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"]),
-                                        title: Text((snapshot.data as List)[index]["phone"]),tileColor: Colors.blueGrey.shade50,
+                                        title: Text((snapshot.data as List)[index]["phone"]),tileColor:_isDark? Colors.grey.shade800:Colors.blueGrey.shade50,
                                         subtitle: isSelected[0]?Text((snapshot.data as List)[index]["date"] +'\t\t'+(snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
-                                        trailing: IconButton(onPressed: () { _onShare(context,snapshot.data as List,index); }, icon: SvgPicture.asset('assets/images/shareBtn.svg',height: 15,color: Colors.blue.shade300))
+                                        trailing: IconButton(
+                                            onPressed: () {_onShare(context,snapshot.data as List,index); },
+                                            icon: SvgPicture.asset('assets/images/shareBtn.svg',height: 15,color:_isDark?Colors.grey: Colors.blue.shade300))
                                       ),
                                     ),
                                   )
