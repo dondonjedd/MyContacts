@@ -147,8 +147,8 @@ class _ContactScreenState extends State<ContactScreen> {
                                     child: Card(
                                       margin: const EdgeInsets.all(10),
                                       child: ListTile(
-                                        leading: RichText(text: TextSpan(children: [TextSpan(text:(index+1).toString()+'. '+(snapshot.data as List)[index]["user"])
-                                        ,TextSpan(text: "\n"+(snapshot.data as List)[index]["date"],style: const TextStyle(color: Colors.white70,height: 1.8))]),),
+                                        leading: RichText(text: TextSpan(children: [TextSpan(text:(index+1).toString()+'. '+(snapshot.data as List)[index]["user"],style: TextStyle(color: _isDark? Colors.white:Colors.black))
+                                        ,TextSpan(text: "\n"+(snapshot.data as List)[index]["date"],style: TextStyle(color: _isDark? Colors.white70:Colors.black54,height: 1.8))]),),
                                         //Text((index+1).toString()+'. '+(snapshot.data as List)[index]["user"] +"\n"+(snapshot.data as List)[index]["date"],),
                                         title: Text((snapshot.data as List)[index]["phone"]),tileColor:_isDark? Colors.grey.shade800:Colors.blueGrey.shade50,
                                         subtitle: isSelected[0]?Text((snapshot.data as List)[index]["time"]) :Text((snapshot.data as List)[index]["timeAgo"]),
