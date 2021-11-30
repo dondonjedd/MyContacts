@@ -82,8 +82,9 @@ class FileManager {
   returns a map
    */
   generateUser<Map>(){
-    String username = UsernameGen.generateWith(seperator: ' ');
-    username=(username.split(" "))[0];
+    String username = UsernameGen.generateWith(data: UsernameGenData(adjectives: ['Chan Saw Lin','Lee Saw Loy',"Khaw Tong Lin", "Lim Kok Lin","Low Jun Wei",
+      "Yong Weng Kai","Jayden Lee","Kong Kah Yan","Jasmine Lau","Chan Saw Lin"], names: ["none"]),seperator: '-');
+    username=(username.split("-"))[0];
 
     int min = 10000000; //min and max values act as your 8 digit range
     int max = 99999999;
