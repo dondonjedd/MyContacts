@@ -33,17 +33,17 @@ class FileManager {
   Future<List> ReadJsonData() async {
     //read json file
     List data=[];
-    final directory = await getExternalStorageDirectory();
+    final directory = await getExternalStorageDirectory(); //get the path to the external directory
     dir = directory!;
-    jsonFile = File(dir.path + "/" + fileName);
-    if(!(jsonFile.existsSync())){
+    jsonFile = File(dir.path + "/" + fileName);//get the jsonfile
+    if(!(jsonFile.existsSync())){ //verify if file exitst
       print("File does not exist!");
 
       createFile(data, dir, fileName);
       fileExists=true;
       for(int i=0;i<30;i++){
         Map generatedUser=generateUser();
-        writeToFile(generatedUser["user"], "01"+generatedUser["phone"],generatedUser["check-in"]);
+        writeToFile(generatedUser["user"], "01"+generatedUser["phone"],generatedUser["check-in"]);//add a new user to the file
       }
     }
     data = await json.decode(await jsonFile.readAsString());
@@ -55,12 +55,16 @@ class FileManager {
     var tmpArray;
     List items = [];
 
+    /*
+    Sort file from according to the check in time
+     */
     data.sort((a,b) {
       var adate = a['check-in'];
       var bdate = b['check-in'];
       return bdate.compareTo(adate);
     });
 
+    //create a list of users to be fed to the List View
     for(int i=0;i<data.length;i++){
       var parsedDateTime=DateTime.parse(data[i]['check-in']);
       clockString = timeformat.format(parsedDateTime);
@@ -78,19 +82,22 @@ class FileManager {
   }
 
   /*
-  Generate a random user with attribute user, phone, check-in
+  Generate a random user with attribute name from a list of name, phone number and check-in time
   returns a map
    */
   generateUser<Map>(){
+    //generate random name
     String username = UsernameGen.generateWith(data: UsernameGenData(adjectives: ['Chan Saw Lin','Lee Saw Loy',"Khaw Tong Lin", "Lim Kok Lin","Low Jun Wei",
       "Yong Weng Kai","Jayden Lee","Kong Kah Yan","Jasmine Lau","Chan Saw Lin"], names: ["none"]),seperator: '-');
     username=(username.split("-"))[0];
 
-    int min = 10000000; //min and max values act as your 8 digit range
+    //generate random 8 digit number
+    int min = 10000000;
     int max = 99999999;
     var randomizer = Random();
     var rNum = min + randomizer.nextInt(max - min);
 
+    //generate random date
     var CurrentDateTime=DateTime.now();
     return {"user":username,"phone":rNum.toString(),"check-in":CurrentDateTime.toString()};
   }
